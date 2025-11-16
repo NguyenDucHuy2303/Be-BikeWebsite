@@ -1,0 +1,26 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id             Int       @id @default(autoincrement())
+  name           String
+  shortDesc      String?        // dùng cho list
+  tagline        String?        // dùng cho detail
+  heroImage      String?
+  image          String?        // ảnh chính cho list
+  description    String?
+  features       String[]       // array of strings, dùng cho list
+  galleryImages  String[]       // array of URL, dùng cho detail
+  sections       Json           // array of {title, content, image}, dùng cho detail
+  specifications Json           // array of {label, value}, dùng cho detail
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
