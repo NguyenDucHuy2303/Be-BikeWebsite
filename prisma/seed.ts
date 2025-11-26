@@ -2,7 +2,6 @@
 import { PrismaClient } from '@prisma/client';
 
 export type ProductImport = {
-  id: number;
   name: string;
   slug: string;
   shortDesc: string;
@@ -18,7 +17,6 @@ export type ProductImport = {
 
 export const productLines: ProductImport[] = [
   {
-    id: 1,
     name: 'Xe Đạp Điện Thành Phố',
     slug: 'xe-dap-dien-thanh-pho',
     tagline: 'Di Chuyển Đô Thị Linh Hoạt & Tiện Lợi',
@@ -79,7 +77,6 @@ export const productLines: ProductImport[] = [
     ],
   },
   {
-    id: 2,
     name: 'Xe Đạp Điện Địa Hình',
     slug: 'xe-dap-dien-dia-hinh',
     tagline: 'Khám Phá Mọi Địa Hình Với Sức Mạnh Vượt Trội',
@@ -139,7 +136,6 @@ export const productLines: ProductImport[] = [
     ],
   },
   {
-    id: 3,
     name: 'Xe Đạp Điện Gấp Gọn',
     slug: 'xe-dap-dien-gap-gon',
     tagline: 'Gọn Nhẹ, Dễ Dàng Mang Theo',
@@ -196,7 +192,6 @@ export const productLines: ProductImport[] = [
     ],
   },
   {
-    id: 4,
     name: 'Xe Đạp Điện Thể Thao',
     tagline: 'Thiết Kế Năng Động, Hiệu Suất Cao',
     slug: 'xe-dap-dien-the-thao',
@@ -246,7 +241,6 @@ export const productLines: ProductImport[] = [
     ],
   },
   {
-    id: 5,
     name: 'Xe Đạp Điện Mini',
     tagline: 'Sang Trọng, Đẳng Cấp & Thông Minh',
     slug: 'xe-dap-dien-mini',
@@ -292,7 +286,6 @@ export const productLines: ProductImport[] = [
     ],
   },
   {
-    id: 6,
     name: 'Xe Đạp Điện Trẻ Em',
     tagline: 'An Toàn & Vui Vẻ Cho Bé Yêu',
     slug: 'xe-dap-dien-mini',
@@ -356,22 +349,58 @@ export const productLines: ProductImport[] = [
   },
 ];
 
+export const initialBikeSeries = [
+  {
+    name: 'City Bike',
+    description: 'Xe đạp điện dành cho di chuyển trong thành phố',
+  },
+  {
+    name: 'Mountain Bike',
+    description: 'Xe đạp điện địa hình',
+  },
+  {
+    name: 'Folding Bike',
+    description: 'Xe đạp điện gấp gọn',
+  },
+  {
+    name: 'Sport Bike',
+    description: 'Xe đạp điện thể thao',
+  },
+  {
+    name: 'Cargo Bike',
+    description: 'Xe đạp điện chở hàng',
+  },
+  {
+    name: 'Kids Bike',
+    description: 'Xe đạp điện trẻ em',
+  },
+];
+
 const prisma = new PrismaClient();
 
 async function main() {
-  for (const p of productLines) {
-    await prisma.product.create({
+  // for (const p of productLines) {
+  //   await prisma.product.create({
+  //     data: {
+  //       name: p.name,
+  //       shortDesc: p.shortDesc,
+  //       tagline: p.tagline,
+  //       heroImage: p.heroImage,
+  //       image: p.image,
+  //       description: p.description,
+  //       features: p.features,
+  //       galleryImages: p.galleryImages,
+  //       sections: p.sections,
+  //       specifications: p.specifications,
+  //     },
+  //   });
+  // }
+
+  for (const s of initialBikeSeries) {
+    await prisma.series.create({
       data: {
-        name: p.name,
-        shortDesc: p.shortDesc,
-        tagline: p.tagline,
-        heroImage: p.heroImage,
-        image: p.image,
-        description: p.description,
-        features: p.features,
-        galleryImages: p.galleryImages,
-        sections: p.sections,
-        specifications: p.specifications,
+        name: s.name,
+        description: s.description,
       },
     });
   }

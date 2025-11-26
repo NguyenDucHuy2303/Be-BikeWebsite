@@ -10,17 +10,55 @@ datasource db {
 }
 
 model Product {
-  id             Int       @id @default(autoincrement())
+  id             String         @id @default(uuid())
   name           String
   shortDesc      String?        // dùng cho list
-  tagline        String?        // dùng cho detail
-  heroImage      String?
-  image          String?        // ảnh chính cho list
+  image          Bytes?        // ảnh chính cho list
   description    String?
   features       String[]       // array of strings, dùng cho list
-  galleryImages  String[]       // array of URL, dùng cho detail
-  sections       Json           // array of {title, content, image}, dùng cho detail
+  galleryImages  Json       // array of URL, dùng cho detail
+  sections       Json           // array of {title, content}, dùng cho detail
+  techImage      Bytes?
+  link           String?
   specifications Json           // array of {label, value}, dùng cho detail
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  seriesId       String 
+  series         Series     @relation(fields: [seriesId], references: [id]) // <-- relation
+  isActive       Boolean
+}
+
+model MainPage {
+  id                      String          @id @default(uuid())
+  image                   String?       
+  link                    String?
+  createdAt               DateTime        @default(now())
+  updatedAt               DateTime        @updatedAt
+  phone                   String? 
+  fanpageFacebook         String? 
+  address                 String? 
+  zalo                    String? 
+}
+
+model Series {
+  id             String    @id @default(uuid())
+  name           String
+  description    String?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+   products  Product[] 
+}
+
+model News {
+  id             String    @id @default(uuid())
+  title           String
+  slug            String     @unique
+  coverImage     String
+  content         String
+  tags            String[]   // PostgreSQL: text[]
+  isHidden       Boolean    @default(false)
+  seoRitle       String?
+  seoDescription String?
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
 }

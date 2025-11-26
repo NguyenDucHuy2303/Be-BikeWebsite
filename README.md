@@ -103,3 +103,14 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 - Generate DB: npx prisma generate
 - Tao va chay migrate npx prisma migrate dev --name init
 - Add data: npm run prisma:seed
+  npx prisma migrate reset
+  npx prisma generate
+  npx prisma migrate dev --name init
+  npm run prisma:seed
+
+- Nếu đã config seed đúng, chỉ cần chạy 1 lệnh duy nhất:
+  npx prisma migrate reset
+  Prisma sẽ:
+  Xóa DB
+  Apply migration
+  Seed data tự động

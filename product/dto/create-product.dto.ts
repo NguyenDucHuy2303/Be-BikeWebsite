@@ -64,4 +64,8 @@ export class CreateProductDto {
   @IsArray()
   @Type(() => SpecDto)
   specifications?: SpecDto[];
+
+  @IsOptional()
+  @IsArray()
+  seriesId:string;
 }
