@@ -18,6 +18,7 @@ model Product {
   features       String[]       // array of strings, dùng cho list
   galleryImages  Json       // array of URL, dùng cho detail
   sections       Json           // array of {title, content}, dùng cho detail
+  sectionsImages  Json?
   techImage      Bytes?
   link           String?
   specifications Json           // array of {label, value}, dùng cho detail

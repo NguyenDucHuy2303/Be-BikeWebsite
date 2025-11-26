@@ -24,12 +24,31 @@ export class ProductController {
   constructor(private service: ProductService) {}
 
   @Post()
-  @UseInterceptors(FilesInterceptor('files', 10))
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'galleryImages', maxCount: 10 },
+      { name: 'techImage', maxCount: 1 },
+      { name: 'sectionsImages', maxCount: 10 },
+    ]),
+  )
   create(
-    @UploadedFiles() files: Express.Multer.File[], // ✅ mảng file
-    @Body() dto: CreateProductDto, // ✅ body JSON
+    @UploadedFiles()
+    files: {
+      galleryImages?: Express.Multer.File[];
+      techImage?: Express.Multer.File[];
+      sectionsImages?: Express.Multer.File[];
+    },
+    @Body() dto: any,
   ) {
-    return this.service.create(dto, files);
+    const galleryImagesVa = files.galleryImages || [];
+    const sectionsImagesVa = files.sectionsImages || [];
+    const techImageVa = files.techImage?.[0];
+    return this.service.create(
+      dto,
+      galleryImagesVa,
+      techImageVa,
+      sectionsImagesVa,
+    );
   }
 
   @Get()
@@ -72,6 +91,7 @@ export class ProductController {
     FileFieldsInterceptor([
       { name: 'galleryImages', maxCount: 10 },
       { name: 'techImage', maxCount: 1 },
+      { name: 'sectionsImages', maxCount: 10 },
     ]),
   )
   update(
@@ -81,11 +101,19 @@ export class ProductController {
     files: {
       galleryImages?: Express.Multer.File[];
       techImage?: Express.Multer.File[];
+      sectionsImages?: Express.Multer.File[];
     },
   ) {
     const galleryImagesVa = files.galleryImages || [];
+    const sectionsImagesVa = files.sectionsImages || [];
     const techImageVa = files.techImage?.[0];
-    return this.service.update(id, dto, galleryImagesVa, techImageVa);
+    return this.service.update(
+      id,
+      dto,
+      galleryImagesVa,
+      techImageVa,
+      sectionsImagesVa,
+    );
   }
 
   @Delete(':id')
