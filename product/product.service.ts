@@ -17,6 +17,11 @@ export class ProductService {
     if (!dto?.seriesId) throw new Error('seriesId is required');
 
     const features = JSON.parse(dto.features);
+    const mergedSections = dto.sections.map((sec, idx) => ({
+      ...sec,
+      image: sectionsImages[idx], // hoặc property bạn muốn gán
+    }));
+
     const sections = JSON.parse(dto.sections);
     const createData: any = {
       name: dto.name,
@@ -28,6 +33,8 @@ export class ProductService {
       techImage: techImage ? techImage.buffer.toString('base64') : null,
       galleryImages:
         galleryImages?.map((f) => f.buffer.toString('base64')) || [],
+      sectionsImages:
+        sectionsImages?.map((f) => f.buffer.toString('base64')) || [],
       specifications: {}, // parse nếu cần
     };
 
@@ -87,6 +94,8 @@ export class ProductService {
       techImage: techImage ? techImage.buffer.toString('base64') : null,
       galleryImages:
         galleryImages?.map((f) => f.buffer.toString('base64')) || [],
+      sectionsImages:
+        sectionsImages?.map((f) => f.buffer.toString('base64')) || [],
       specifications: {}, // parse nếu cần
     };
 

@@ -7,9 +7,25 @@ import { UpdateNewsDto } from './dto/update-news.dto';
 export class NewsService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: any) {
+  create(data: any, coverImageFile: any) {
+    const tagsArray: string[] = data.tags
+      ? JSON.parse(data.tags as string) // parse từ JSON string
+      : [];
+
+    const createData: any = {
+      title: data.title,
+      slug: data.slug,
+      coverImage: coverImageFile
+        ? coverImageFile.buffer.toString('base64') // nếu lưu base64
+        : data.coverImage || '', // hoặc URL
+      content: data.content,
+      tags: tagsArray || [], // string[]
+      isHidden: data.isHidden === 'true' || data.isHidden === true,
+      seoRitle: data.seoRitle || '',
+      seoDescription: data.seoDescription || '',
+    };
     return this.prisma.news.create({
-      data,
+      data: createData,
     });
   }
 
@@ -25,10 +41,27 @@ export class NewsService {
     });
   }
 
-  update(id: string, data: UpdateNewsDto) {
+  update(id: string, data: any, coverImageFile: any) {
+    const tagsArray: string[] = data.tags
+      ? JSON.parse(data.tags as string) // parse từ JSON string
+      : [];
+
+    const updateData: any = {
+      title: data.title,
+      slug: data.slug,
+      coverImage: coverImageFile
+        ? coverImageFile.buffer.toString('base64') // nếu lưu base64
+        : data.coverImage || '', // hoặc URL
+      content: data.content,
+      tags: tagsArray || [], // string[]
+      isHidden: data.isHidden === 'true' || data.isHidden === true,
+      seoRitle: data.seoRitle || '',
+      seoDescription: data.seoDescription || '',
+    };
+
     return this.prisma.news.update({
       where: { id },
-      data,
+      data: updateData,
     });
   }
 
