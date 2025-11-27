@@ -40,7 +40,7 @@ export class NewsController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: string) {
+  findOne(@Param('id') id: string) {
     return this.newsService.findOne(id);
   }
 
